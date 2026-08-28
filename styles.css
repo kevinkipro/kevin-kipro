@@ -72,8 +72,10 @@ body {
   left: 50%;
   display: inline-flex;
   align-items: baseline;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(48px, 6vw, 64px);
   font-weight: 700;
+  letter-spacing: -0.035em;
   line-height: 1;
   white-space: nowrap;
   transform: translate(-50%, -50%);

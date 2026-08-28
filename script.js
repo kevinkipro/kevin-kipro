@@ -10,13 +10,14 @@
   }
 
   const fullName = "Kevin Kiprotich";
+  const introStorageKey = "introSeenSFPro";
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ready = false;
   let entering = false;
 
   const hasSeenIntro = (() => {
     try {
-      return window.sessionStorage.getItem("introSeen") === "true";
+      return window.sessionStorage.getItem(introStorageKey) === "true";
     } catch {
       return false;
     }
@@ -28,7 +29,7 @@
 
   const finish = (focusHeader = false) => {
     try {
-      window.sessionStorage.setItem("introSeen", "true");
+      window.sessionStorage.setItem(introStorageKey, "true");
     } catch {
       // The intro still works when browser storage is unavailable.
     }
