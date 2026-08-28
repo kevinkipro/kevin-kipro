@@ -3,23 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Kevin Kiprotich's personal website — a home for projects, ideas, and ways to connect."
-    />
-    <meta name="theme-color" content="#f4efe6" />
+    <meta name="description" content="Kevin Kiprotich's personal website." />
     <title>Kevin Kiprotich</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Kevin Kiprotich, home">KK</a>
+    <header>
+      <a class="name" href="/">Kevin Kiprotich</a>
       <nav aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#work">Work</a>
@@ -27,66 +17,42 @@
       </nav>
     </header>
 
-    <main id="top">
-      <section class="hero" aria-labelledby="intro-heading">
-        <div class="eyebrow"><span></span> Personal website</div>
-        <h1 id="intro-heading">Hello, I’m<br /><em>Kevin Kiprotich.</em></h1>
-        <p class="hero-copy">
-          Welcome to my corner of the internet—a home for the things I make,
-          the ideas I’m exploring, and the work I care about.
-        </p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#work">See my work</a>
-          <a class="button button-text" href="https://github.com/kevinkipro">GitHub <span aria-hidden="true">↗</span></a>
-        </div>
+    <main>
+      <section class="intro">
+        <h1>Kevin Kiprotich</h1>
+        <p>A personal website for my work and interests.</p>
       </section>
 
-      <section class="about" id="about" aria-labelledby="about-heading">
-        <p class="section-number">01 / About</p>
-        <div>
-          <h2 id="about-heading">A little about me</h2>
+      <section id="about">
+        <h2>About</h2>
+        <div class="content">
           <p>
-            I’m Kevin. This site is the starting point for sharing more about
-            who I am and what I’m working on. The story is still being written,
-            and this space will grow along with it.
+            I’m Kevin. I’m putting this site together as a place to document
+            what I’m working on and share things I find useful.
           </p>
         </div>
       </section>
 
-      <section class="work" id="work" aria-labelledby="work-heading">
-        <div class="section-heading">
-          <p class="section-number">02 / Work</p>
-          <h2 id="work-heading">Selected projects</h2>
-        </div>
-        <article class="project-card">
-          <div>
-            <p class="project-label">Project 001</p>
+      <section id="work">
+        <h2>Work</h2>
+        <div class="content">
+          <article>
             <h3>This website</h3>
-            <p>
-              A simple, fast home on the web—built in the open and hosted with
-              GitHub Pages.
-            </p>
-          </div>
-          <a href="https://github.com/kevinkipro/kevinkipro.github.io" aria-label="View this website's source on GitHub">View source <span aria-hidden="true">↗</span></a>
-        </article>
-        <p class="more-soon">More projects coming soon.</p>
+            <p>Built with HTML and CSS. Hosted on GitHub Pages.</p>
+            <a href="https://github.com/kevinkipro/kevinkipro.github.io">Source code</a>
+          </article>
+          <p class="note">More to add.</p>
+        </div>
       </section>
 
-      <section class="contact" id="contact" aria-labelledby="contact-heading">
-        <p class="section-number">03 / Contact</p>
-        <div>
-          <h2 id="contact-heading">Let’s connect.</h2>
-          <p>The best place to find me right now is GitHub.</p>
-          <a class="button button-light" href="https://github.com/kevinkipro">Visit my GitHub <span aria-hidden="true">↗</span></a>
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="content">
+          <a href="https://github.com/kevinkipro">GitHub</a>
         </div>
       </section>
     </main>
 
-    <footer>
-      <p>© <span id="year"></span> Kevin Kiprotich</p>
-      <p>Made with care. Hosted on GitHub Pages.</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <footer>Kevin Kiprotich</footer>
   </body>
 </html>

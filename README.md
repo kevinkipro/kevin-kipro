@@ -1,6 +1,8 @@
 # Kevin Kiprotich — Personal Website
 
-The source for [kevinkipro.github.io](https://kevinkipro.github.io), Kevin Kiprotich's personal website.
+The source for Kevin Kiprotich's personal website. It currently lives at
+[kevinkipro.github.io](https://kevinkipro.github.io) and will move to
+`kevinkipro.com` after the domain is registered and connected.
 
 ## Run locally
 
