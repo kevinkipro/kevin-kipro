@@ -14,21 +14,39 @@
   let ready = false;
   let entering = false;
 
+  const hasSeenIntro = (() => {
+    try {
+      return window.sessionStorage.getItem("introSeen") === "true";
+    } catch {
+      return false;
+    }
+  })();
+
   content.setAttribute("aria-hidden", "true");
 
   const wait = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
 
-  const finish = () => {
+  const finish = (focusHeader = false) => {
+    try {
+      window.sessionStorage.setItem("introSeen", "true");
+    } catch {
+      // The intro still works when browser storage is unavailable.
+    }
+
     intro.hidden = true;
     content.classList.remove("is-entering");
-    content.querySelector(".site-name")?.focus({ preventScroll: true });
+
+    if (focusHeader) {
+      content.querySelector(".site-name")?.focus({ preventScroll: true });
+    }
   };
 
-  const revealSite = async () => {
+  const revealSite = async (event) => {
     if (!ready || entering) {
       return;
     }
 
+    const focusHeader = event?.type === "keydown";
     entering = true;
     trigger.disabled = true;
     trigger.setAttribute("aria-expanded", "true");
@@ -42,14 +60,14 @@
     document.body.classList.add("site-entered");
 
     if (reducedMotion) {
-      finish();
+      finish(focusHeader);
       return;
     }
 
     intro.classList.add("is-docking");
     wordmark.classList.add("is-docked");
     await wait(750);
-    finish();
+    finish(focusHeader);
   };
 
   const makeReady = () => {
@@ -66,6 +84,14 @@
   };
 
   const runIntro = async () => {
+    if (hasSeenIntro) {
+      intro.hidden = true;
+      content.removeAttribute("aria-hidden");
+      content.classList.add("is-visible");
+      document.body.classList.add("site-entered");
+      return;
+    }
+
     if (reducedMotion) {
       name.textContent = fullName;
       makeReady();
