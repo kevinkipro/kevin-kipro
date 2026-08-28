@@ -1,0 +1,87 @@
+(() => {
+  const intro = document.querySelector("[data-intro-screen]");
+  const trigger = document.querySelector("[data-intro-trigger]");
+  const wordmark = document.querySelector("[data-intro-wordmark]");
+  const name = document.querySelector("[data-intro-name]");
+  const content = document.querySelector("[data-site-content]");
+
+  if (!intro || !trigger || !wordmark || !name || !content) {
+    return;
+  }
+
+  const fullName = "Kevin Kiprotich";
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let ready = false;
+  let entering = false;
+
+  content.setAttribute("aria-hidden", "true");
+
+  const wait = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
+
+  const finish = () => {
+    intro.hidden = true;
+    content.classList.remove("is-entering");
+    content.querySelector(".site-name")?.focus({ preventScroll: true });
+  };
+
+  const revealSite = async () => {
+    if (!ready || entering) {
+      return;
+    }
+
+    entering = true;
+    trigger.disabled = true;
+    trigger.setAttribute("aria-expanded", "true");
+    trigger.removeEventListener("click", revealSite);
+    window.removeEventListener("pointermove", revealSite);
+    window.removeEventListener("pointerdown", revealSite);
+    window.removeEventListener("keydown", revealSite);
+
+    content.removeAttribute("aria-hidden");
+    content.classList.add("is-visible", "is-entering");
+    document.body.classList.add("site-entered");
+
+    if (reducedMotion) {
+      finish();
+      return;
+    }
+
+    intro.classList.add("is-docking");
+    wordmark.classList.add("is-docked");
+    await wait(750);
+    finish();
+  };
+
+  const makeReady = () => {
+    ready = true;
+    intro.classList.add("is-ready");
+    trigger.setAttribute(
+      "aria-label",
+      "Kevin Kiprotich. Move the pointer, tap, or press a key to open the website."
+    );
+    trigger.addEventListener("click", revealSite, { once: true });
+    window.addEventListener("pointermove", revealSite, { once: true, passive: true });
+    window.addEventListener("pointerdown", revealSite, { once: true, passive: true });
+    window.addEventListener("keydown", revealSite, { once: true });
+  };
+
+  const runIntro = async () => {
+    if (reducedMotion) {
+      name.textContent = fullName;
+      makeReady();
+      return;
+    }
+
+    await wait(700);
+
+    for (const character of fullName) {
+      name.textContent += character;
+      await wait(character === " " ? 150 : 85);
+    }
+
+    await wait(350);
+    makeReady();
+  };
+
+  runIntro();
+})();
