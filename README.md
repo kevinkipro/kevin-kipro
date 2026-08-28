@@ -1,6 +1,7 @@
 # Kevin Kiprotich — Personal Website
 
-The source for Kevin Kiprotich's personal website. It currently lives at
+The source for Kevin Kiprotich's personal website. The current version is an
+intentionally minimal starting point containing only Kevin's name. It lives at
 [kevinkipro.github.io](https://kevinkipro.github.io) and will move to
 `kevinkipro.com` after the domain is registered and connected.
 
