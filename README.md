@@ -36,3 +36,10 @@ Published essays appear automatically at `/writing/` and in `/rss.xml`.
 GitHub Actions builds the site and publishes the `dist` directory to GitHub
 Pages whenever `main` is updated. The custom domain is defined in
 `public/CNAME`.
+
+## Copyright
+
+Copyright © 2026 Kevin Kiprotich. All rights reserved. This project is not
+open-source and no permission is granted to copy, reproduce, adapt,
+redistribute, or use it as a website template. See [COPYRIGHT.md](COPYRIGHT.md)
+for details.
