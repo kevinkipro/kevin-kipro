@@ -71,8 +71,8 @@ body {
   top: 50%;
   left: 50%;
   display: inline-flex;
-  align-items: baseline;
-  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  align-items: center;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(48px, 6vw, 64px);
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -88,12 +88,20 @@ body {
 
 .intro-caret {
   display: inline-block;
-  width: 1px;
-  height: 0.95em;
-  margin-left: 0.06em;
-  background: currentColor;
-  vertical-align: -0.06em;
-  animation: caret-blink 1s steps(1, end) infinite;
+  flex: 0 0 clamp(3px, 0.055em, 4px);
+  width: clamp(3px, 0.055em, 4px);
+  height: 1.12em;
+  margin-left: 0.035em;
+  background: rgb(10 132 255);
+  border-radius: 999px;
+  box-shadow: 0 0 1px rgb(10 132 255 / 55%);
+  animation: caret-blink 1.06s linear infinite;
+  will-change: opacity;
+}
+
+.intro-wordmark.is-typing .intro-caret {
+  animation: none;
+  opacity: 1;
 }
 
 .intro-trigger:focus-visible {
@@ -147,13 +155,17 @@ body {
 
 @keyframes caret-blink {
   0%,
-  45% {
+  49% {
     opacity: 1;
   }
 
   50%,
-  95% {
+  99% {
     opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 

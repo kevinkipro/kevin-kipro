@@ -10,7 +10,7 @@
   }
 
   const fullName = "Kevin Kiprotich";
-  const introStorageKey = "introSeenSFPro";
+  const introStorageKey = "introSeenIOSCaretV2";
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ready = false;
   let entering = false;
@@ -95,10 +95,12 @@
 
     if (reducedMotion) {
       name.textContent = fullName;
+      wordmark.classList.remove("is-typing");
       makeReady();
       return;
     }
 
+    wordmark.classList.add("is-typing");
     await wait(700);
 
     for (const character of fullName) {
@@ -106,6 +108,7 @@
       await wait(character === " " ? 150 : 85);
     }
 
+    wordmark.classList.remove("is-typing");
     await wait(350);
     makeReady();
   };
