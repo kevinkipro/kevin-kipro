@@ -1,0 +1,30 @@
+---
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About — Kevin Kiprotich"
+  description="About Kevin Kiprotich."
+  bodyClass="about-page motion-page"
+  motionScript
+>
+  <Header active="about" />
+
+  <main id="main-content">
+    <h1>About</h1>
+    <p class="introduction">
+      I’m Kevin, a software engineering degree apprentice based in Adelaide,
+      Australia. This is where I share my writing, work, and things I’m learning.
+    </p>
+    <ul class="about-links" aria-label="Contact and profiles">
+      <li><a href="mailto:kkiprotichkevin@gmail.com">Email</a></li>
+      <li><a href="https://github.com/kevinkipro" rel="me">GitHub</a></li>
+      <li>
+        <a href="https://www.linkedin.com/in/kevin-kiprotich-18a1b11b4" rel="me">
+          LinkedIn
+        </a>
+      </li>
+    </ul>
+  </main>
+</BaseLayout>

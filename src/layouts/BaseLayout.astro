@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  bodyClass?: string;
+  introScript?: boolean;
+  motionScript?: boolean;
+}
+
+const {
+  title,
+  description,
+  bodyClass,
+  introScript = false,
+  motionScript = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="Kevin Kiprotich’s writing" href="/rss.xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    {introScript && <script is:inline>document.documentElement.classList.add("has-js");</script>}
+    {introScript && <script is:inline src="/script.js" defer></script>}
+    {motionScript && <script is:inline src="/motion.js" defer></script>}
+    <title>{title}</title>
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

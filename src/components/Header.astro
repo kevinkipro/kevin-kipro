@@ -1,0 +1,19 @@
+---
+interface Props {
+  active?: "writing" | "about";
+}
+
+const { active } = Astro.props;
+---
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-name" href="/" aria-label="Kevin Kiprotich, home">Kevin Kiprotich</a>
+    <nav aria-label="Primary navigation">
+      <a href="/writing/" aria-current={active === "writing" ? "page" : undefined}>Writing</a>
+      <a href="/about/" aria-current={active === "about" ? "page" : undefined}>About</a>
+    </nav>
+  </div>
+</header>

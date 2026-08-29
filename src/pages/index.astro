@@ -1,0 +1,34 @@
+---
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Kevin Kiprotich"
+  description="Kevin Kiprotich’s personal website."
+  bodyClass="home-page"
+  introScript
+>
+  <div class="intro-screen" data-intro-screen>
+    <button
+      class="intro-trigger"
+      type="button"
+      aria-label="Enter Kevin Kiprotich’s website"
+      aria-controls="site-content"
+      aria-expanded="false"
+      data-intro-trigger
+    >
+      <span class="intro-wordmark" aria-hidden="true" data-intro-wordmark>
+        <span data-intro-name></span><span class="intro-caret"></span>
+      </span>
+    </button>
+  </div>
+
+  <div class="site-shell" id="site-content" data-site-content>
+    <Header />
+
+    <main id="main-content">
+      <h1 class="visually-hidden">Kevin Kiprotich</h1>
+    </main>
+  </div>
+</BaseLayout>
