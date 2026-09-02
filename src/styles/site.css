@@ -195,6 +195,24 @@ body {
   opacity: 0;
 }
 
+.home-statement {
+  max-width: 640px;
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-wrap: balance;
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+}
+
+.has-js .home-page .intro-screen:not([hidden]) ~ .site-shell .home-statement {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 @keyframes caret-blink {
   0%,
   49% {
@@ -380,6 +398,10 @@ h1 {
     padding-bottom: 48px;
   }
 
+  .home-statement {
+    font-size: clamp(24px, 7.4vw, 30px);
+  }
+
   .about-page .introduction {
     margin-top: 56px;
   }
@@ -409,6 +431,10 @@ h1 {
   }
 
   .intro-wordmark {
+    transition: none;
+  }
+
+  .home-statement {
     transition: none;
   }
 
