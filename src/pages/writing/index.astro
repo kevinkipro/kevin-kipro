@@ -6,6 +6,17 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const posts = (await getCollection("writing", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
 );
+
+const elsewhere = (await getCollection("elsewhere")).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 ---
 
 <BaseLayout
@@ -18,22 +29,55 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft)).sort(
 
   <main id="main-content">
     <h1>Writing</h1>
+
     {
       posts.length > 0 && (
-        <ol class="writing-list">
-          {posts.map((post) => (
-            <li>
-              <a href={`/writing/${post.id}/`}>{post.data.title}</a>
-              <time datetime={post.data.published.toISOString()}>
-                {post.data.published.toLocaleDateString("en-AU", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </time>
-            </li>
-          ))}
-        </ol>
+        <section class="entries" aria-labelledby="essays-label">
+          <h2 class="section-label" id="essays-label">
+            Essays
+          </h2>
+          <ul class="entry-list">
+            {posts.map((post) => (
+              <li>
+                <a href={`/writing/${post.id}/`}>
+                  <span class="entry-title">{post.data.title}</span>
+                  <span class="entry-meta">
+                    <time datetime={post.data.published.toISOString()}>
+                      {formatDate(post.data.published)}
+                    </time>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      elsewhere.length > 0 && (
+        <section class="entries" aria-labelledby="elsewhere-label">
+          <h2 class="section-label" id="elsewhere-label">
+            Elsewhere
+          </h2>
+          <ul class="entry-list">
+            {elsewhere.map((item) => (
+              <li>
+                <a href={item.data.url} target="_blank" rel="noopener noreferrer">
+                  <span class="entry-title">{item.data.title}</span>
+                  <span class="entry-meta">
+                    {item.data.publication}
+                    <span aria-hidden="true"> · </span>
+                    <time datetime={item.data.published.toISOString()}>
+                      {formatDate(item.data.published)}
+                    </time>
+                  </span>
+                </a>
+                {item.data.note && <p class="entry-note">{item.data.note}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
       )
     }
   </main>

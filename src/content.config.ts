@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 
 const writing = defineCollection({
   loader: glob({ base: "./src/content/writing", pattern: "**/*.{md,mdx}" }),
@@ -12,4 +12,15 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { writing };
+const elsewhere = defineCollection({
+  loader: file("./src/content/elsewhere.json"),
+  schema: z.object({
+    title: z.string(),
+    publication: z.string(),
+    published: z.coerce.date(),
+    url: z.string().url(),
+    note: z.string().optional(),
+  }),
+});
+
+export const collections = { writing, elsewhere };
