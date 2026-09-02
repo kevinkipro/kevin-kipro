@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { now } from "../data/now";
@@ -13,7 +14,7 @@ const formatDate = (date: Date) =>
 
 <BaseLayout
   title="Now — Kevin Kiprotich"
-  description="What Kevin Kiprotich is working on, reading, and thinking about at the moment."
+  description="What Kevin Kiprotich is building, reading, and thinking about at the moment."
   bodyClass="now-page motion-page"
   motionScript
 >
@@ -24,36 +25,41 @@ const formatDate = (date: Date) =>
 
     <div class="now-lede">
       {now.lede.map((paragraph) => <p>{paragraph}</p>)}
+      <p class="now-aside">{now.aside}</p>
     </div>
 
     <section class="entries" aria-labelledby="reading-label">
       <h2 class="section-label" id="reading-label">Reading</h2>
-      <p class="now-book">
-        {now.reading.title}
-        <span class="now-author">{now.reading.author}</span>
-      </p>
-      <p class="now-recent">
-        Recently — {
-          now.recentlyRead.map((book, index) => (
-            <>
-              {book.title}
-              {index < now.recentlyRead.length - 1 && (
-                <span aria-hidden="true">{" · "}</span>
-              )}
-            </>
+      <ul class="book-grid">
+        {
+          now.books.map((book) => (
+            <li class="book">
+              <Image
+                class="book-cover"
+                src={book.cover}
+                alt={`${book.title} by ${book.author}`}
+                width={300}
+                loading="lazy"
+              />
+              <p class="book-title">{book.title}</p>
+              <p class="book-meta">{book.author}</p>
+              <p class:list={["book-status", { "is-reading": book.status === "Reading" }]}>
+                {book.status}
+              </p>
+            </li>
           ))
         }
-      </p>
+      </ul>
     </section>
 
-    <section class="entries" aria-labelledby="curious-label">
-      <h2 class="section-label" id="curious-label">Curious about</h2>
+    <section class="entries" aria-labelledby="interested-label">
+      <h2 class="section-label" id="interested-label">Interested in</h2>
       <p class="now-curious">
         {
-          now.curiousAbout.map((item, index) => (
+          now.interestedIn.map((item, index) => (
             <>
               {item}
-              {index < now.curiousAbout.length - 1 && (
+              {index < now.interestedIn.length - 1 && (
                 <span aria-hidden="true">{" · "}</span>
               )}
             </>
