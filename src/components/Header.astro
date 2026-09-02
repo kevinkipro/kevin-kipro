@@ -1,6 +1,6 @@
 ---
 interface Props {
-  active?: "writing" | "about";
+  active?: "writing" | "now" | "about";
 }
 
 const { active } = Astro.props;
@@ -13,6 +13,7 @@ const { active } = Astro.props;
     <a class="site-name" href="/" aria-label="Kevin Kiprotich, home">Kevin Kiprotich</a>
     <nav aria-label="Primary navigation">
       <a href="/writing/" aria-current={active === "writing" ? "page" : undefined}>Writing</a>
+      <a href="/now/" aria-current={active === "now" ? "page" : undefined}>Now</a>
       <a href="/about/" aria-current={active === "about" ? "page" : undefined}>About</a>
     </nav>
   </div>

@@ -1,0 +1,69 @@
+---
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { now } from "../data/now";
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+---
+
+<BaseLayout
+  title="Now — Kevin Kiprotich"
+  description="What Kevin Kiprotich is working on, reading, and thinking about at the moment."
+  bodyClass="now-page motion-page"
+  motionScript
+>
+  <Header active="now" />
+
+  <main id="main-content">
+    <h1>Now</h1>
+
+    <div class="now-lede">
+      {now.lede.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+
+    <section class="entries" aria-labelledby="reading-label">
+      <h2 class="section-label" id="reading-label">Reading</h2>
+      <p class="now-book">
+        {now.reading.title}
+        <span class="now-author">{now.reading.author}</span>
+      </p>
+      <p class="now-recent">
+        Recently — {
+          now.recentlyRead.map((book, index) => (
+            <>
+              {book.title}
+              {index < now.recentlyRead.length - 1 && (
+                <span aria-hidden="true">{" · "}</span>
+              )}
+            </>
+          ))
+        }
+      </p>
+    </section>
+
+    <section class="entries" aria-labelledby="curious-label">
+      <h2 class="section-label" id="curious-label">Curious about</h2>
+      <p class="now-curious">
+        {
+          now.curiousAbout.map((item, index) => (
+            <>
+              {item}
+              {index < now.curiousAbout.length - 1 && (
+                <span aria-hidden="true">{" · "}</span>
+              )}
+            </>
+          ))
+        }
+      </p>
+    </section>
+
+    <p class="now-updated">
+      Updated <time datetime={now.updated.toISOString()}>{formatDate(now.updated)}</time>
+    </p>
+  </main>
+</BaseLayout>
