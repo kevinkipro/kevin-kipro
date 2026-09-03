@@ -371,17 +371,16 @@ h1 {
   margin-top: 40px;
 }
 
+.now-lede p:last-child {
+  margin-bottom: 0;
+}
+
 .now-lede p {
   margin: 0 0 16px;
   font-size: clamp(18px, 1.45vw, 21px);
   letter-spacing: -0.015em;
   line-height: 1.55;
   text-wrap: pretty;
-}
-
-.now-aside {
-  margin-bottom: 0 !important;
-  color: #6e6e73;
 }
 
 .book-grid {

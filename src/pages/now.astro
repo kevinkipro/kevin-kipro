@@ -25,7 +25,6 @@ const formatDate = (date: Date) =>
 
     <div class="now-lede">
       {now.lede.map((paragraph) => <p>{paragraph}</p>)}
-      <p class="now-aside">{now.aside}</p>
     </div>
 
     <section class="entries" aria-labelledby="reading-label">
@@ -55,16 +54,7 @@ const formatDate = (date: Date) =>
     <section class="entries" aria-labelledby="interested-label">
       <h2 class="section-label" id="interested-label">Interested in</h2>
       <p class="now-curious">
-        {
-          now.interestedIn.map((item, index) => (
-            <>
-              {item}
-              {index < now.interestedIn.length - 1 && (
-                <span aria-hidden="true">{" · "}</span>
-              )}
-            </>
-          ))
-        }
+        {now.interestedIn.map((item) => <>{item}. </>)}
       </p>
     </section>
 

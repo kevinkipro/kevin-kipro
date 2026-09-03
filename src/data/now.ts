@@ -17,12 +17,10 @@ export const now = {
   updated: new Date("2026-09-02"),
 
   lede: [
-    "Software engineering student and degree apprentice in Adelaide.",
-    "Most of my time goes into agentic engineering. Building real software with coding agents, and finding out how far one person can get with them.",
-    "One day I want to start a company. Something people love using.",
+    "Lately I’ve been spending a lot of time on agentic coding, using tools like Codex and Claude Code to build software for myself. It’s how I’m learning at the moment, and I’m curious to see where it goes.",
+    "I want to make good software, and one day build something of my own. A company, or a product I really care about that’s genuinely useful to people.",
+    "Outside software, health is a big part of my life. Mostly the gym at the moment, and I love running too. I like the process as much as the results.",
   ],
-
-  aside: "I read most days, train at the gym, and run.",
 
   books: [
     {
@@ -58,11 +56,12 @@ export const now = {
   ] as Book[],
 
   interestedIn: [
-    "founders, and how companies actually get built",
-    "how good software gets made now that agents write most of it",
-    "understanding people, and getting better at it",
-    "changing your mind when the facts change",
-    "chips, and the machinery under modern computing",
-    "training, running, and how the body works",
+    "Good software and how it gets made",
+    "Agentic coding and what it changes",
+    "Founders and great products",
+    "People and judgement",
+    "Chips and modern computing",
+    "Training, running, health, and performance",
   ],
+
 };
