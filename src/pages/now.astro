@@ -36,7 +36,7 @@ const formatDate = (date: Date) =>
               <Image
                 class="book-cover"
                 src={book.cover}
-                alt={`${book.title} by ${book.author}`}
+                alt=""
                 width={300}
                 loading="lazy"
               />
@@ -49,13 +49,6 @@ const formatDate = (date: Date) =>
           ))
         }
       </ul>
-    </section>
-
-    <section class="entries" aria-labelledby="interested-label">
-      <h2 class="section-label" id="interested-label">Interested in</h2>
-      <p class="now-curious">
-        {now.interestedIn.map((item) => <>{item}. </>)}
-      </p>
     </section>
 
     <p class="now-updated">

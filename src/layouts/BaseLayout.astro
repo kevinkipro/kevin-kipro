@@ -27,7 +27,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title="Kevin Kiprotich’s writing" href="/rss.xml" />
-    {introScript && <script is:inline>document.documentElement.classList.add("has-js");</script>}
+    {introScript && <script is:inline>
+      document.documentElement.classList.add("has-js");
+      // Keep the site accessible if the intro script cannot load.
+      window.setTimeout(() => {
+        if (!document.documentElement.hasAttribute("data-intro-initialized")) {
+          document.documentElement.classList.remove("has-js");
+        }
+      }, 4500);
+    </script>}
     {introScript && <script is:inline src="/script.js" defer></script>}
     {motionScript && <script is:inline src="/motion.js" defer></script>}
     <title>{title}</title>

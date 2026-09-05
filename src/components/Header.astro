@@ -10,7 +10,7 @@ const { active } = Astro.props;
 
 <header class="site-header">
   <div class="site-header-inner">
-    <a class="site-name" href="/" aria-label="Kevin Kiprotich, home">Kevin Kiprotich</a>
+    <a class="site-name" href="/" aria-label="Kevin Kiprotich, home"><span data-site-name>Kevin Kiprotich</span></a>
     <nav aria-label="Primary navigation">
       <a href="/writing/" aria-current={active === "writing" ? "page" : undefined}>Writing</a>
       <a href="/now/" aria-current={active === "now" ? "page" : undefined}>Now</a>

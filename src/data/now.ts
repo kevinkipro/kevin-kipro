@@ -14,12 +14,12 @@ export interface Book {
 }
 
 export const now = {
-  updated: new Date("2026-09-02"),
+  updated: new Date("2026-09-05"),
 
   lede: [
-    "Lately I’ve been spending a lot of time on agentic coding, using tools like Codex and Claude Code to build software for myself. It’s how I’m learning at the moment, and I’m curious to see where it goes.",
-    "I want to make good software, and one day build something of my own. A company, or a product I really care about that’s genuinely useful to people.",
-    "Outside software, health is a big part of my life. Mostly the gym at the moment, and I love running too. I like the process as much as the results.",
+    "I’ve been building software for myself with Codex and Claude Code, including this website. I’m making the design decisions and using agents to help implement them. I spend quite a while adjusting the details.",
+    "Alongside that, I’m doing my software engineering degree apprenticeship. I’d like to write about that experience here.",
+    "Outside software, I’m spending time in the gym. I enjoy running too.",
   ],
 
   books: [
@@ -54,14 +54,5 @@ export const now = {
       status: "Finished",
     },
   ] as Book[],
-
-  interestedIn: [
-    "Good software and how it gets made",
-    "Agentic coding and what it changes",
-    "Founders and great products",
-    "People and judgement",
-    "Chips and modern computing",
-    "Training, running, health, and performance",
-  ],
 
 };
