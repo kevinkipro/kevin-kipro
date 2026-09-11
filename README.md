@@ -37,8 +37,11 @@ Books live in `src/data/now.ts`. Books marked `Reading` appear in the current
 reading row; books marked `Finished` appear in the Cover Flow shelf. Add a
 local cover image and a book entry to extend the collection.
 
-The shelf supports cover selection, drag/swipe, horizontal trackpad scrolling,
-arrow buttons, a position slider, and Left/Right or Home/End keys. It respects
+The shelf sits directly on the page with soft reflections. It supports cover
+selection, drag/swipe, horizontal trackpad scrolling, tappable position dots,
+and Left/Right or Home/End keys. Each dot has a 44px target and a book-title
+label, so every book is reachable without dragging. The gesture hint fades
+after browsing; keyboard instructions appear on keyboard focus. It respects
 reduced motion and falls back to a readable cover grid without JavaScript.
 
 ## Publishing
