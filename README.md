@@ -31,6 +31,16 @@ draft: false
 
 Published essays appear automatically at `/writing/` and in `/rss.xml`.
 
+## Now bookshelf
+
+Books live in `src/data/now.ts`. Books marked `Reading` appear in the current
+reading row; books marked `Finished` appear in the Cover Flow shelf. Add a
+local cover image and a book entry to extend the collection.
+
+The shelf supports cover selection, drag/swipe, horizontal trackpad scrolling,
+arrow buttons, a position slider, and Left/Right or Home/End keys. It respects
+reduced motion and falls back to a readable cover grid without JavaScript.
+
 ## Publishing
 
 GitHub Actions builds the site and publishes the `dist` directory to GitHub
