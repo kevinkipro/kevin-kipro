@@ -14,12 +14,10 @@ export interface Book {
 }
 
 export const now = {
-  updated: new Date("2026-09-05"),
+  updated: new Date("2026-09-11"),
 
   lede: [
-    "I’ve been building software for myself with Codex and Claude Code, including this website. I’m making the design decisions and using agents to help implement them. I spend quite a while adjusting the details.",
-    "Alongside that, I’m doing my software engineering degree apprenticeship. I’d like to write about that experience here.",
-    "Outside software, I’m spending time in the gym. I enjoy running too.",
+    "Lately, I’ve been using AI coding agents to build software for myself and reading broadly. I’m especially interested in people how we think, communicate, and relate to each other and in building technology that feels intuitive to use.",
   ],
 
   books: [
