@@ -1,0 +1,233 @@
+---
+import { Image } from "astro:assets";
+import type { Book } from "../data/now";
+
+interface Props {
+  books: Book[];
+}
+
+const { books } = Astro.props;
+const initialIndex = Math.floor((books.length - 1) / 2);
+---
+
+{books.length > 0 && (
+  <book-cover-flow
+    data-initial-index={initialIndex}
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="Books I’ve read"
+  >
+    <div class="flow-stage" aria-label="Book covers">
+      <ol class="flow-books">
+        {books.map((book, index) => (
+          <li class="flow-book" data-title={book.title} data-author={book.author}>
+            <button class="flow-select" type="button" aria-label={`Select ${book.title} by ${book.author}`} disabled>
+              <Image class="flow-cover" src={book.cover} alt="" width={420} loading="eager" draggable="false" />
+              <span class="flow-reflection" aria-hidden="true">
+                <Image src={book.cover} alt="" width={420} loading="eager" draggable="false" />
+              </span>
+            </button>
+            <div class="flow-book-details">
+              <p>{book.title}</p>
+              <span>{book.author}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="flow-interface" hidden>
+      <div class="flow-caption" aria-live="polite" aria-atomic="true">
+        <p class="flow-title">{books[initialIndex].title}</p>
+        <p class="flow-author">{books[initialIndex].author}</p>
+        <span class="visually-hidden flow-announcement" />
+      </div>
+      <div class="flow-controls">
+        <button class="flow-arrow" data-direction="-1" type="button" aria-label="Previous book">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <input class="flow-scrubber" type="range" min="0" max={books.length - 1} step="1" value={initialIndex} aria-label="Browse finished books" />
+        <button class="flow-arrow" data-direction="1" type="button" aria-label="Next book">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 6 6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+      </div>
+      <p class="flow-hint"><span class="flow-count" /> <span aria-hidden="true">·</span> Swipe or use the arrows</p>
+    </div>
+  </book-cover-flow>
+)}
+
+<script>
+  class BookCoverFlow extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      const books = Array.from(this.querySelectorAll<HTMLElement>(".flow-book"));
+      const buttons = books.map((book) => book.querySelector<HTMLButtonElement>(".flow-select")!);
+      const title = this.querySelector<HTMLElement>(".flow-title")!;
+      const author = this.querySelector<HTMLElement>(".flow-author")!;
+      const count = this.querySelector<HTMLElement>(".flow-count")!;
+      const announcement = this.querySelector<HTMLElement>(".flow-announcement")!;
+      const scrubber = this.querySelector<HTMLInputElement>(".flow-scrubber")!;
+      const arrows = Array.from(this.querySelectorAll<HTMLButtonElement>(".flow-arrow"));
+      let selected = Number(this.dataset.initialIndex) || 0;
+
+      const select = (index: number, focus = false) => {
+        selected = Math.max(0, Math.min(books.length - 1, index));
+        books.forEach((book, bookIndex) => {
+          const offset = bookIndex - selected;
+          book.style.setProperty("--offset", String(offset));
+          book.style.setProperty("--distance", String(Math.abs(offset)));
+          book.style.setProperty("--side", String(Math.sign(offset)));
+          book.style.zIndex = String(books.length - Math.abs(offset));
+          book.classList.toggle("is-selected", offset === 0);
+          buttons[bookIndex].disabled = false;
+          buttons[bookIndex].tabIndex = offset === 0 ? 0 : -1;
+          buttons[bookIndex].setAttribute("aria-pressed", String(offset === 0));
+        });
+        title.textContent = books[selected].dataset.title!;
+        author.textContent = books[selected].dataset.author!;
+        count.textContent = `${selected + 1} / ${books.length}`;
+        announcement.textContent = `Book ${selected + 1} of ${books.length}.`;
+        scrubber.value = String(selected);
+        scrubber.setAttribute("aria-valuetext", `${selected + 1} of ${books.length}: ${title.textContent} by ${author.textContent}`);
+        arrows[0].disabled = selected === 0;
+        arrows[1].disabled = selected === books.length - 1;
+        if (focus) buttons[selected].focus({ preventScroll: true });
+      };
+
+      buttons.forEach((button, index) => button.addEventListener("click", () => select(index)));
+      arrows.forEach((arrow) => arrow.addEventListener("click", () => select(selected + Number(arrow.dataset.direction))));
+      scrubber.addEventListener("input", () => select(Number(scrubber.value)));
+      this.addEventListener("keydown", (event) => {
+        if (event.target === scrubber || event.altKey || event.ctrlKey || event.metaKey) return;
+        const keys: Record<string, number> = { ArrowLeft: selected - 1, ArrowRight: selected + 1, Home: 0, End: books.length - 1 };
+        if (!(event.key in keys)) return;
+        event.preventDefault();
+        select(keys[event.key], buttons.includes(document.activeElement as HTMLButtonElement));
+      });
+
+      select(selected);
+      this.querySelector<HTMLElement>(".flow-interface")!.hidden = false;
+      this.dataset.ready = "true";
+    }
+  }
+
+  if (!customElements.get("book-cover-flow")) customElements.define("book-cover-flow", BookCoverFlow);
+</script>
+
+<style>
+  book-cover-flow {
+    --cover-height: clamp(11.5rem, 32vw, 15rem);
+    --cover-width: calc(var(--cover-height) * 0.68);
+    --spread: clamp(6.75rem, 22vw, 11rem);
+    --step: clamp(2.5rem, 7vw, 4.25rem);
+    display: block;
+    margin-top: 1.25rem;
+    overflow: hidden;
+    color: #f5f5f7;
+    background: #080808;
+    border-radius: 8px;
+  }
+
+  .flow-books {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: 2rem 1rem;
+    margin: 0;
+    padding: 2rem;
+    list-style: none;
+  }
+
+  .flow-select {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .flow-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .flow-book-details p { margin: 1rem 0 0.25rem; font-size: 0.875rem; }
+  .flow-book-details span { color: #a1a1a6; font-size: 0.8125rem; }
+  .flow-reflection { display: none; }
+  .flow-interface[hidden] { display: none; }
+
+  [data-ready] .flow-stage {
+    position: relative;
+    height: calc(var(--cover-height) + 6.25rem);
+    overflow: hidden;
+    touch-action: pan-y pinch-zoom;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  [data-ready] .flow-books {
+    display: block;
+    position: absolute;
+    inset: 2.5rem 0 0;
+    padding: 0;
+    perspective: 900px;
+    perspective-origin: 50% 42%;
+  }
+
+  [data-ready] .flow-book {
+    position: absolute;
+    top: 0;
+    left: calc(50% - var(--cover-width) / 2);
+    width: var(--cover-width);
+    height: var(--cover-height);
+    transform: translateX(calc(var(--side) * (var(--spread) + (var(--distance) - 1) * var(--step)))) translateZ(-95px) rotateY(calc(var(--side) * -64deg));
+    transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1), filter 550ms ease;
+    filter: brightness(0.68);
+  }
+
+  [data-ready] .flow-book.is-selected {
+    transform: translateX(0) translateZ(0) rotateY(0);
+    filter: brightness(1);
+  }
+
+  [data-ready] .flow-select { height: 100%; cursor: pointer; }
+  [data-ready] .flow-cover { height: 100%; object-fit: fill; box-shadow: 0 8px 25px #0008; }
+  [data-ready] .flow-book-details { display: none; }
+  [data-ready] .flow-reflection {
+    position: absolute;
+    display: block;
+    top: calc(100% + 3px);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, #0005, transparent 55%);
+  }
+  .flow-reflection img { display: block; width: 100%; height: 100%; transform: scaleY(-1); }
+
+  .flow-caption { position: relative; padding: 0 1rem; text-align: center; }
+  .flow-title { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.4; }
+  .flow-author { margin: 3px 0 0; font-size: 0.875rem; color: #aaa; }
+  .flow-controls { display: flex; justify-content: center; align-items: center; gap: 0.75rem; margin: 0.75rem auto 0; }
+  .flow-arrow { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; color: #ddd; background: transparent; cursor: pointer; }
+  .flow-arrow:hover:not(:disabled) { background: #ffffff12; color: white; }
+  .flow-arrow:disabled { opacity: 0.25; cursor: default; }
+  .flow-scrubber { appearance: none; width: min(10rem, 35%); height: 44px; margin: 0; background: transparent; cursor: pointer; }
+  .flow-scrubber::-webkit-slider-runnable-track { height: 5px; border-radius: 8px; background: #333; box-shadow: inset 0 1px 2px #000; }
+  .flow-scrubber::-moz-range-track { height: 5px; border-radius: 8px; background: #333; }
+  .flow-scrubber::-webkit-slider-thumb { appearance: none; width: 28px; height: 11px; margin-top: -3px; border: 1px solid #ddd; border-radius: 4px; background: linear-gradient(#eee, #999); box-shadow: 0 1px 3px #0008; }
+  .flow-scrubber::-moz-range-thumb { width: 28px; height: 9px; border: 1px solid #ddd; border-radius: 4px; background: linear-gradient(#eee, #999); }
+  .flow-select:focus-visible { outline: 2px solid #8dc5ff; outline-offset: 5px; }
+  .flow-arrow:focus-visible, .flow-scrubber:focus-visible { outline: 2px solid #8dc5ff; outline-offset: 2px; }
+  .flow-hint { margin: 0.15rem 0 1.5rem; color: #929292; text-align: center; font-size: 0.75rem; }
+  .flow-hint span + span { padding: 0 0.35rem; }
+  .flow-count { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-ready] .flow-book { transition: none; }
+  }
+</style>

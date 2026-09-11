@@ -1,8 +1,12 @@
 ---
 import { Image } from "astro:assets";
+import BookCoverFlow from "../components/BookCoverFlow.astro";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { now } from "../data/now";
+
+const reading = now.books.filter((book) => book.status === "Reading");
+const finished = now.books.filter((book) => book.status === "Finished");
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-AU", {
@@ -29,26 +33,25 @@ const formatDate = (date: Date) =>
 
     <section class="entries" aria-labelledby="reading-label">
       <h2 class="section-label" id="reading-label">Reading</h2>
-      <ul class="book-grid">
-        {
-          now.books.map((book) => (
-            <li class="book">
-              <Image
-                class="book-cover"
-                src={book.cover}
-                alt=""
-                width={300}
-                loading="lazy"
-              />
-              <p class="book-title">{book.title}</p>
-              <p class="book-meta">{book.author}</p>
-              <p class:list={["book-status", { "is-reading": book.status === "Reading" }]}>
-                {book.status}
-              </p>
+      {reading.length > 0 && (
+        <ul class="currently-reading">
+          {reading.map((book) => (
+            <li>
+              <Image src={book.cover} alt="" width={120} class="current-cover" />
+              <div>
+                <p class="current-label">Currently reading</p>
+                <p class="current-title">{book.title}</p>
+                <p class="current-author">{book.author}</p>
+              </div>
             </li>
-          ))
-        }
-      </ul>
+          ))}
+        </ul>
+      )}
+      <div class="finished-heading">
+        <h3>Books I’ve read</h3>
+        <span>{finished.length} books</span>
+      </div>
+      <BookCoverFlow books={finished} />
     </section>
 
     <p class="now-updated">
@@ -56,3 +59,16 @@ const formatDate = (date: Date) =>
     </p>
   </main>
 </BaseLayout>
+
+<style>
+  .currently-reading { margin: 1.25rem 0 2rem; padding: 0; list-style: none; }
+  .currently-reading li { display: flex; align-items: center; gap: 1rem; }
+  .currently-reading li + li { margin-top: 1.5rem; }
+  .current-cover { width: 3.25rem; height: auto; box-shadow: 0 2px 5px #0002; }
+  .current-label { margin: 0 0 4px; font-size: 0.75rem; color: var(--secondary); }
+  .current-title { margin: 0; font-size: 0.9375rem; font-weight: 500; }
+  .current-author { margin: 2px 0 0; font-size: 0.8125rem; color: var(--secondary); }
+  .finished-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .finished-heading h3 { margin: 0; font-size: 0.875rem; font-weight: 500; }
+  .finished-heading span { color: var(--secondary); font-size: 0.8125rem; }
+</style>
