@@ -179,7 +179,11 @@ const initialIndex = Math.floor((books.length - 1) / 2);
       };
       stage.addEventListener("pointerup", (event) => finishGesture(event));
       stage.addEventListener("pointercancel", (event) => finishGesture(event, true));
-      stage.addEventListener("lostpointercapture", (event) => finishGesture(event, true));
+      stage.addEventListener("lostpointercapture", (event) => {
+        // Touch capture transfers from the cover to the stage. The cover's
+        // bubbling capture loss must not cancel the swipe now owned by the stage.
+        if (event.target === stage) finishGesture(event, true);
+      });
       stage.addEventListener("pointerleave", () => { if (gesture && !gesture.locked) gesture = null; });
       stage.addEventListener("click", (event) => {
         if (!suppressClick || event.detail === 0) return;
