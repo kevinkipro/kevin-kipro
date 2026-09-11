@@ -14,10 +14,10 @@ export interface Book {
 }
 
 export const now = {
-  updated: new Date("2026-09-11"),
+  updated: new Date("2026-09-12"),
 
   lede: [
-    "Lately, I’ve been using AI coding agents to build software for myself and reading broadly. I’m especially interested in people how we think, communicate, and relate to each other and in building technology that feels intuitive to use.",
+    "Lately, I’ve been using AI coding agents to build software for myself and reading broadly. I’m interested in how people think, communicate, and relate to each other, and in building technology that feels intuitive to use.",
   ],
 
   books: [
