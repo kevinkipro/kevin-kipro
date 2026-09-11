@@ -4,29 +4,33 @@ import type { Book } from "../data/now";
 
 interface Props {
   books: Book[];
+  label: string;
 }
 
-const { books } = Astro.props;
+const { books, label } = Astro.props;
+const multiple = books.length > 1;
+const CoverTag = multiple ? "button" : "div";
 const initialIndex = Math.floor((books.length - 1) / 2);
 ---
 
 {books.length > 0 && (
   <book-cover-flow
     data-initial-index={initialIndex}
+    data-single={!multiple || undefined}
     role="region"
-    aria-roledescription="carousel"
-    aria-label="Books I’ve read"
+    aria-roledescription={multiple ? "carousel" : undefined}
+    aria-label={label}
   >
     <div class="flow-stage" aria-label="Book covers">
       <ol class="flow-books">
         {books.map((book) => (
           <li class="flow-book" style={`--book-ratio: ${book.cover.width / book.cover.height}`} data-title={book.title} data-author={book.author}>
-            <button class="flow-select" type="button" aria-label={`Select ${book.title} by ${book.author}`} disabled>
+            <CoverTag class="flow-select" type={multiple ? "button" : undefined} aria-label={multiple ? `Select ${book.title} by ${book.author}` : undefined} disabled={multiple || undefined}>
               <Image class="flow-cover" src={book.cover} alt="" width={420} loading="eager" draggable="false" />
               <span class="flow-reflection" aria-hidden="true">
                 <Image src={book.cover} alt="" width={420} loading="eager" draggable="false" />
               </span>
-            </button>
+            </CoverTag>
             <div class="flow-book-details">
               <p>{book.title}</p>
               <span>{book.author}</span>
@@ -38,21 +42,17 @@ const initialIndex = Math.floor((books.length - 1) / 2);
 
     <div class="flow-interface" hidden>
       <div class="flow-caption" aria-live="polite" aria-atomic="true">
-        <p class="flow-title">{books[initialIndex].title}</p>
-        <p class="flow-author">{books[initialIndex].author}</p>
+        <p class="flow-title entry-title">{books[initialIndex].title}</p>
+        <p class="flow-author entry-meta">{books[initialIndex].author}</p>
         <span class="visually-hidden flow-announcement" />
       </div>
-      <div class="flow-pagination" role="group" aria-label="Choose a book">
-        {books.map((book, index) => (
+      <div class="flow-pagination" role={multiple ? "group" : undefined} aria-label={multiple ? "Choose a book" : undefined}>
+        {multiple && books.map((book, index) => (
           <button class="flow-dot" type="button" aria-label={`Show ${book.title}, book ${index + 1} of ${books.length}`} aria-pressed={index === initialIndex}>
             <span aria-hidden="true" />
           </button>
         ))}
       </div>
-      <p class="flow-hint" aria-hidden="true">
-        <span class="flow-gesture-hint">Drag to browse</span>
-        <span class="flow-key-hint">Use ← and → to browse</span>
-      </p>
     </div>
   </book-cover-flow>
 )}
@@ -62,7 +62,7 @@ const initialIndex = Math.floor((books.length - 1) / 2);
     connectedCallback() {
       if (this.dataset.ready) return;
       const books = Array.from(this.querySelectorAll<HTMLElement>(".flow-book"));
-      const buttons = books.map((book) => book.querySelector<HTMLButtonElement>(".flow-select")!);
+      const buttons = Array.from(this.querySelectorAll<HTMLButtonElement>("button.flow-select"));
       const title = this.querySelector<HTMLElement>(".flow-title")!;
       const author = this.querySelector<HTMLElement>(".flow-author")!;
       const announcement = this.querySelector<HTMLElement>(".flow-announcement")!;
@@ -84,22 +84,29 @@ const initialIndex = Math.floor((books.length - 1) / 2);
 
       const select = (index: number, focus = false) => {
         const next = Math.max(0, Math.min(books.length - 1, index));
-        if (next !== selected) this.classList.add("has-browsed");
         selected = next;
         books.forEach((book, bookIndex) => {
           const offset = bookIndex - selected;
           book.classList.toggle("is-selected", offset === 0);
-          buttons[bookIndex].disabled = false;
-          buttons[bookIndex].tabIndex = offset === 0 ? 0 : -1;
-          buttons[bookIndex].setAttribute("aria-pressed", String(offset === 0));
-          pickers[bookIndex].setAttribute("aria-pressed", String(offset === 0));
+          const button = buttons[bookIndex];
+          if (button) {
+            button.disabled = false;
+            button.tabIndex = offset === 0 ? 0 : -1;
+            button.setAttribute("aria-pressed", String(offset === 0));
+          }
+          pickers[bookIndex]?.setAttribute("aria-pressed", String(offset === 0));
         });
         renderPosition(selected);
         title.textContent = books[selected].dataset.title!;
         author.textContent = books[selected].dataset.author!;
         announcement.textContent = `Book ${selected + 1} of ${books.length}.`;
-        if (focus) buttons[selected].focus({ preventScroll: true });
+        if (focus) buttons[selected]?.focus({ preventScroll: true });
       };
+
+      select(selected);
+      this.querySelector<HTMLElement>(".flow-interface")!.hidden = false;
+      this.dataset.ready = "true";
+      if (books.length === 1) return;
 
       buttons.forEach((button, index) => button.addEventListener("click", () => select(index)));
       pickers.forEach((picker, index) => picker.addEventListener("click", () => select(index)));
@@ -199,12 +206,6 @@ const initialIndex = Math.floor((books.length - 1) / 2);
         if (Math.abs(wheelTotal) >= 60) { select(selected + direction); wheelTotal = 0; }
       }, { passive: false });
 
-      if (window.matchMedia("(pointer: coarse)").matches) {
-        this.querySelector<HTMLElement>(".flow-gesture-hint")!.textContent = "Swipe to browse";
-      }
-      select(selected);
-      this.querySelector<HTMLElement>(".flow-interface")!.hidden = false;
-      this.dataset.ready = "true";
     }
   }
 
@@ -213,11 +214,11 @@ const initialIndex = Math.floor((books.length - 1) / 2);
 
 <style>
   book-cover-flow {
-    --cover-height: clamp(11.5rem, 32vw, 15rem);
+    --cover-height: clamp(12.5rem, 36vw, 17rem);
     --spread: clamp(6.75rem, 22vw, 11rem);
     --step: clamp(2.5rem, 7vw, 4.25rem);
     display: block;
-    margin-top: 1.25rem;
+    margin-top: 0.75rem;
     overflow: hidden;
     color: var(--text);
   }
@@ -288,6 +289,7 @@ const initialIndex = Math.floor((books.length - 1) / 2);
   .is-dragging .flow-book { transition: none; }
 
   [data-ready] .flow-select { height: 100%; cursor: pointer; }
+  [data-single] .flow-stage, [data-single] .flow-select { cursor: default; }
   .is-dragging .flow-stage, .is-dragging .flow-select { cursor: grabbing; }
   [data-ready] .flow-cover { height: 100%; box-shadow: 0 0 0 1px rgb(0 0 0 / 7%), 0 5px 14px rgb(0 0 0 / 10%); }
   [data-ready] .flow-book-details { display: none; }
@@ -303,24 +305,18 @@ const initialIndex = Math.floor((books.length - 1) / 2);
   .flow-reflection img { display: block; width: 100%; height: 100%; transform: scaleY(-1); }
 
   .flow-caption { position: relative; padding: 0 1rem; text-align: center; }
-  .flow-title { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.4; }
-  .flow-author { margin: 3px 0 0; font-size: 0.875rem; color: var(--secondary); }
-  .flow-pagination { display: flex; flex-wrap: wrap; justify-content: center; margin: 0.5rem auto 0; }
+  .flow-title { margin: 0; }
+  .flow-author { margin: 3px 0 0; }
+  .flow-pagination { display: flex; min-height: 44px; flex-wrap: wrap; justify-content: center; margin: 0.5rem auto 0; }
   .flow-dot { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 50%; }
   .flow-dot span { width: 6px; height: 6px; border-radius: 9px; background: #929297; transition: width 220ms ease, background 220ms ease; }
   .flow-dot[aria-pressed="true"] span { width: 16px; background: var(--text); }
   .flow-dot:hover span { background: var(--text); }
   .flow-select:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; }
   .flow-dot:focus-visible { outline: 2px solid var(--link); outline-offset: -5px; }
-  .flow-hint { margin: 0; min-height: 1.5em; color: var(--secondary); text-align: center; font-size: 0.75rem; transition: opacity 220ms ease; }
-  .has-browsed .flow-hint { opacity: 0; }
-  .flow-key-hint { display: none; }
-  book-cover-flow:has(:focus-visible) .flow-hint { opacity: 1; }
-  book-cover-flow:has(:focus-visible) .flow-gesture-hint { display: none; }
-  book-cover-flow:has(:focus-visible) .flow-key-hint { display: inline; }
 
   @media (prefers-reduced-motion: reduce) {
     [data-ready] .flow-book { transition: none; }
-    .flow-dot span, .flow-hint { transition: none; }
+    .flow-dot span { transition: none; }
   }
 </style>

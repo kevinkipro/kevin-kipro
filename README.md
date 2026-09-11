@@ -33,16 +33,17 @@ Published essays appear automatically at `/writing/` and in `/rss.xml`.
 
 ## Now bookshelf
 
-Books live in `src/data/now.ts`. Books marked `Reading` appear in the current
-reading row; books marked `Finished` appear in the Cover Flow shelf. Add a
-local cover image and a book entry to extend the collection.
+Books live in `src/data/now.ts`. The centered shelf has “Reading now” and
+“Finished” tabs based on each book’s status, opening on Finished when available.
+Switching tabs preserves each shelf’s selected book. Add a local cover image
+and a book entry to extend the collection.
 
 The shelf sits directly on the page with soft reflections. It supports cover
 selection, drag/swipe, horizontal trackpad scrolling, tappable position dots,
 and Left/Right or Home/End keys. Each dot has a 44px target and a book-title
-label, so every book is reachable without dragging. The gesture hint fades
-after browsing; keyboard instructions appear on keyboard focus. It respects
-reduced motion and falls back to a readable cover grid without JavaScript.
+label, so every book is reachable without dragging. Tabs also support arrow
+keys and Home/End. A one-book shelf has no paging controls or drag interaction.
+It respects reduced motion and shows both labeled book groups without JavaScript.
 
 ## Publishing
 
