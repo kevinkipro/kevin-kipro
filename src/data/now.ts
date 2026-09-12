@@ -1,5 +1,6 @@
 import type { ImageMetadata } from "astro";
 
+import atomicHabits from "../assets/books/atomic-habits.jpg";
 import chipWar from "../assets/books/chip-war.jpg";
 import howToKnowAPerson from "../assets/books/how-to-know-a-person.jpg";
 import psychologyOfMoney from "../assets/books/psychology-of-money.jpg";
@@ -33,6 +34,13 @@ export const now = {
       cover: chipWar,
       status: "Reading",
       binding: { color: "#eeeade", ink: "#9b7f30", thickness: 0.086 },
+    },
+    {
+      title: "Atomic Habits",
+      author: "James Clear",
+      cover: atomicHabits,
+      status: "Finished",
+      binding: { color: "#f1eee5", ink: "#a7753a", thickness: 0.072 },
     },
     {
       title: "How to Know a Person",
