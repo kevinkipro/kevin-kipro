@@ -300,7 +300,8 @@ const bookStyle = (book: Book) => `--book-ratio: ${book.cover.width / book.cover
     width: var(--cover-width);
     height: var(--cover-height);
     transform-style: preserve-3d;
-    transform: translateX(calc(var(--side) * (var(--spread) + (var(--distance) - 1) * var(--step)))) translateZ(calc(var(--recession) * -95px)) rotateY(calc(var(--side) * -58deg - (1 - var(--recession)) * 14deg));
+    /* The selected cover faces forward; only the flanking books turn inward. */
+    transform: translateX(calc(var(--side) * (var(--spread) + (var(--distance) - 1) * var(--step)))) translateZ(calc(var(--recession) * -95px)) rotateY(calc(var(--side) * -58deg));
     transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
