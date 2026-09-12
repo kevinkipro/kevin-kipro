@@ -11,6 +11,12 @@ export interface Book {
   author: string;
   cover: ImageMetadata;
   status: string;
+  binding?: {
+    color: string;
+    ink: string;
+    /** Visual spine depth as a proportion of the displayed cover height. */
+    thickness: number;
+  };
 }
 
 export const now = {
@@ -26,30 +32,35 @@ export const now = {
       author: "Chris Miller",
       cover: chipWar,
       status: "Reading",
+      binding: { color: "#eeeade", ink: "#9b7f30", thickness: 0.086 },
     },
     {
       title: "How to Know a Person",
       author: "David Brooks",
       cover: howToKnowAPerson,
       status: "Finished",
+      binding: { color: "#af312e", ink: "#fff8e9", thickness: 0.075 },
     },
     {
       title: "Steve Jobs",
       author: "Walter Isaacson",
       cover: steveJobs,
       status: "Finished",
+      binding: { color: "#e8e7e2", ink: "#252522", thickness: 0.095 },
     },
     {
       title: "Range",
       author: "David Epstein",
       cover: range,
       status: "Finished",
+      binding: { color: "#8fd6bd", ink: "#143b30", thickness: 0.074 },
     },
     {
       title: "The Psychology of Money",
       author: "Morgan Housel",
       cover: psychologyOfMoney,
       status: "Finished",
+      binding: { color: "#edeee7", ink: "#536957", thickness: 0.065 },
     },
   ] as Book[],
 

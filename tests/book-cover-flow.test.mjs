@@ -51,11 +51,13 @@ function createShelf() {
   });
   const buttons = books.map(() => new Element());
   const pickers = books.map(() => new Element());
+  const reflections = books.map(() => new Element());
   const stage = new Element();
   const image = new Element();
   const title = new Element();
   shelf.selectors = new Map([
     [".flow-book", books], ["button.flow-select", buttons], [".flow-dot", pickers],
+    [".flow-reflected-book", reflections],
     [".flow-title", title], [".flow-author", new Element()],
     [".flow-announcement", new Element()], [".flow-interface", new Element()],
     [".flow-stage", stage],
@@ -88,7 +90,7 @@ function createShelf() {
     pointer("pointermove", 180 + distance, 100, 160);
     pointer("pointerup", 180 + distance, 100, 300);
   }
-  return { shelf, stage, image, title, buttons, pickers, pointer, swipe };
+  return { shelf, stage, image, title, books, reflections, buttons, pickers, pointer, swipe };
 }
 
 test("touch swipes starting on an image survive implicit capture transfer in both directions", () => {
@@ -161,4 +163,21 @@ test("swiping beyond the shelf ends stays on the first or last book", () => {
   assert.equal(flow.title.textContent, "How to Know a Person");
   flow.swipe(90);
   assert.equal(flow.title.textContent, "How to Know a Person");
+});
+
+test("reflections follow each book through a partial swipe and its final selection", () => {
+  const flow = createShelf();
+  const assertMatchingPoses = () => flow.books.forEach((book, index) => {
+    assert.deepEqual(flow.reflections[index].styles, book.styles);
+    assert.equal(flow.reflections[index].style.zIndex, book.style.zIndex);
+  });
+  assertMatchingPoses();
+  flow.pointer("pointerdown", 180, 100, 0, flow.image);
+  flow.pointer("pointermove", 140, 100, 100, flow.image);
+  assert.notEqual(flow.books[1].styles.get("--side"), "0");
+  assertMatchingPoses();
+  flow.pointer("pointermove", 90, 100, 200);
+  flow.pointer("pointerup", 90, 100, 400);
+  assert.equal(flow.title.textContent, "Range");
+  assertMatchingPoses();
 });

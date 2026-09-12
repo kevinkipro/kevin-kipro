@@ -1,0 +1,160 @@
+---
+import { Image } from "astro:assets";
+import type { Book } from "../data/now";
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+---
+
+<span class="book-model" aria-hidden="true">
+  <span class="book-face book-front">
+    <Image class="book-cover" src={book.cover} alt="" width={420} loading="eager" draggable="false" />
+  </span>
+  <span class="book-face book-back" />
+  <span class="book-face book-spine">
+    <span class="book-spine-title">{book.title}</span>
+    <span class="book-spine-author">{book.author}</span>
+  </span>
+  <span class="book-face book-pages" />
+  <span class="book-face book-head" />
+  <span class="book-face book-tail" />
+</span>
+
+<style>
+  .book-model {
+    display: block;
+    pointer-events: none;
+  }
+
+  .book-face { display: none; }
+  .book-front { display: block; }
+  .book-cover { display: block; width: 100%; height: auto; }
+
+  :global(book-cover-flow[data-ready]) .book-model {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  :global(book-cover-flow[data-ready]) .book-face {
+    position: absolute;
+    display: block;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  :global(book-cover-flow[data-ready]) .book-front,
+  :global(book-cover-flow[data-ready]) .book-back {
+    /* The inside of the back board is visible around the inset page block. */
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+    inset: 0;
+    border-radius: 1px;
+    background: var(--binding-color, #e4ded3);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-front {
+    transform: translateZ(calc(var(--book-depth) / 2));
+    box-shadow: 0 0 0 0.5px rgb(0 0 0 / 14%);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-cover {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  /* The shallow hinge, board lip, and light stay on the cover's own plane. */
+  :global(book-cover-flow[data-ready]) .book-front::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgb(0 0 0 / 15%), transparent 2%, rgb(255 255 255 / 16%) 3%, rgb(0 0 0 / 7%) 4%, transparent 5%, transparent 96%, rgb(0 0 0 / 5%));
+    box-shadow: inset 0 1px rgb(255 255 255 / 28%), inset 0 -1px rgb(0 0 0 / 13%);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-back {
+    transform: translateZ(calc(var(--book-depth) / -2)) rotateY(180deg);
+    background-image: linear-gradient(90deg, rgb(0 0 0 / 12%), transparent 7%, rgb(255 255 255 / 5%) 60%, rgb(0 0 0 / 12%));
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 12%), inset 0 1px rgb(255 255 255 / 20%);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-spine {
+    top: 0;
+    left: 0;
+    width: var(--book-depth);
+    height: 100%;
+    transform-origin: 0 50%;
+    transform: translateZ(calc(var(--book-depth) / -2)) rotateY(-90deg);
+    color: var(--binding-ink, #292721);
+    background: linear-gradient(90deg, rgb(0 0 0 / 20%), transparent 18%, rgb(255 255 255 / 16%) 40%, transparent 70%, rgb(0 0 0 / 16%)), var(--binding-color, #e4ded3);
+    box-shadow: inset 0 1px rgb(255 255 255 / 28%), inset 0 -1px rgb(0 0 0 / 15%);
+  }
+
+  .book-spine-title,
+  .book-spine-author {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: inherit;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .book-spine-title {
+    top: 0.7rem;
+    max-height: calc(69% - 1rem);
+    font-size: clamp(0.5rem, calc(var(--book-depth) * 0.46), 0.6875rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .book-spine-author {
+    bottom: 0.7rem;
+    max-height: calc(28% - 0.5rem);
+    font-size: clamp(0.375rem, calc(var(--book-depth) * 0.3), 0.5rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* The paper sits inside the boards; its fine lines follow the page stack. */
+  :global(book-cover-flow[data-ready]) .book-pages {
+    top: 2px;
+    left: calc(100% - 1px);
+    width: calc(var(--book-depth) - 2px);
+    height: calc(100% - 4px);
+    transform-origin: 0 50%;
+    transform: translateZ(calc(var(--book-depth) / 2 - 1px)) rotateY(90deg);
+    background: linear-gradient(90deg, rgb(80 65 39 / 16%), transparent 16%, rgb(255 255 255 / 32%) 48%, rgb(80 65 39 / 9%)), repeating-linear-gradient(90deg, #f3f0e7 0, #f3f0e7 1px, #dfdbd0 1px, #ede9df 1.7px);
+    box-shadow: inset 0 0 1px rgb(76 60 36 / 24%);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-head,
+  :global(book-cover-flow[data-ready]) .book-tail {
+    left: 1px;
+    width: calc(100% - 2px);
+    height: calc(var(--book-depth) - 2px);
+    transform-origin: 0 0;
+    background: linear-gradient(90deg, rgb(73 58 33 / 14%), transparent 8%, transparent 95%, rgb(73 58 33 / 8%)), repeating-linear-gradient(0deg, #f1eee5 0, #f1eee5 1px, #dcd7cb 1px, #e9e5db 1.7px);
+    box-shadow: inset 0 0 1px rgb(76 60 36 / 20%);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-head {
+    top: 2px;
+    transform: translateZ(calc(var(--book-depth) / -2 + 1px)) rotateX(90deg);
+  }
+
+  :global(book-cover-flow[data-ready]) .book-tail {
+    top: calc(100% - 2px);
+    transform: translateZ(calc(var(--book-depth) / 2 - 1px)) rotateX(-90deg);
+  }
+</style>

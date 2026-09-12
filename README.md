@@ -42,6 +42,12 @@ Books live in `src/data/now.ts`. The centered shelf has “Reading now” and
 Switching tabs preserves each shelf’s selected book. Add a local cover image
 and a book entry to extend the collection.
 
+Each book uses a CSS 3D model with a front cover, printed spine, back board,
+and inset paper edges. Optional `binding` colors and thickness in `now.ts`
+control its appearance; thickness is relative to the displayed cover height.
+The reflection mirrors the complete model and follows the same movement,
+with its fade applied outside the 3D scene to preserve the book's depth.
+
 The shelf sits directly on the page with soft reflections. It supports cover
 selection, drag/swipe, horizontal trackpad scrolling, tappable position dots,
 and Left/Right or Home/End keys. Each dot has a 44px target and a book-title
