@@ -4,4 +4,7 @@ export default defineConfig({
   site: "https://kevinkipro.com",
   output: "static",
   trailingSlash: "always",
+  redirects: {
+    "/now/": "/",
+  },
 });

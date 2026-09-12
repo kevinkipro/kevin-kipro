@@ -33,6 +33,10 @@ Published essays appear automatically at `/writing/` and in `/rss.xml`.
 
 ## Now bookshelf
 
+The homepage is the Now page, revealed by the name intro on a first visit.
+The old `/now/` address redirects to `/`, and both the site name and Now
+navigation link lead home. Background and contact details live on About.
+
 Books live in `src/data/now.ts`. The centered shelf has “Reading now” and
 “Finished” tabs based on each book’s status, opening on Finished when available.
 Switching tabs preserves each shelf’s selected book. Add a local cover image
