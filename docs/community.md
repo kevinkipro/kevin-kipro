@@ -21,9 +21,9 @@ Manage comments at https://talk.hyvor.com/console/16077/comments and subscriptio
 5. In the Hyvor Console, you can remove comments, mark spam and close a discussion. Use the reversible Delete action first; Delete Forever is permanent.
 6. Add the Website ID as the GitHub Actions repository variable `PUBLIC_HYVOR_WEBSITE_ID`.
 
-Readers choose **Load discussion** beneath an essay. The site then loads the Hyvor component. Until that click, it makes no Hyvor request. Each thread uses `writing:` plus the essay's content ID, so changing the displayed title does not change its discussion. Keep the Markdown filename stable after comments begin, or migrate the thread before renaming it.
+The Hyvor comment box loads automatically beneath each essay. Reactions are disabled in the Hyvor Console. The newsletter section contains only its heading, email field, Subscribe button, and RSS link. Each thread uses `writing:` plus the essay's content ID, so changing the displayed title does not change its discussion. Keep the Markdown filename stable after comments begin, or migrate the thread before renaming it.
 
-The footer includes the provider's privacy link and an email alternative. If the script is blocked or fails, the reader can retry. The provider handles errors after its component starts.
+Explanatory and provider copy has been removed from the site footer. If the script fails, a short error and Retry button appear. Without JavaScript, an email alternative remains available. The provider handles errors after its component starts.
 
 ## 2. Set up email subscriptions
 

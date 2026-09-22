@@ -763,4 +763,4 @@ h1 {
 .reader-section :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
 .discussion-load { margin-top: 0.5rem; }
 .discussion [data-comments-status]:empty { display: none; }
-.discussion hyvor-talk-comments { display: block; margin-top: 1.5rem; }
+.discussion hyvor-talk-comments { display: block; }

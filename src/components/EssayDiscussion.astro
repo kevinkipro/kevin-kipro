@@ -8,21 +8,13 @@ const emailUrl = `mailto:kkiprotichkevin@gmail.com?subject=${encodeURIComponent(
 ---
 
 {hyvorWebsiteId && (
-  <section class="reader-section discussion" aria-labelledby="discussion-heading"
+  <section class="reader-section discussion" aria-label="Comments"
     data-discussion data-website-id={hyvorWebsiteId} data-page-id={pageId}
     data-page-title={title} data-page-url={pageUrl}>
-    <h2 id="discussion-heading">Join the discussion</h2>
-    <p>What did this make you think of? Share a thought or ask a question.
-      You can comment as a guest without an account.</p>
-    <p class="reader-note">Disagreement is welcome. Please keep it respectful and on topic.
-      Spam and abusive comments may be removed.</p>
-    <button class="discussion-load" type="button" data-load-comments hidden>Load discussion</button>
+    <button class="discussion-load" type="button" data-load-comments hidden>Retry</button>
     <p class="reader-note" role="status" data-comments-status></p>
     <div data-comments-container></div>
-    <noscript><p>Enable JavaScript to read and leave comments.</p></noscript>
-    <p class="reader-note">Comments are hosted by <a href="https://talk.hyvor.com/privacy">Hyvor Talk</a>.
-      Loading the discussion connects to their service.
-      You can also <a href={emailUrl}>email me</a>.</p>
+    <noscript><p>Enable JavaScript for comments, or <a href={emailUrl}>email me</a>.</p></noscript>
   </section>
 )}
 
@@ -32,10 +24,11 @@ const emailUrl = `mailto:kkiprotichkevin@gmail.com?subject=${encodeURIComponent(
     const button = section.querySelector<HTMLButtonElement>("[data-load-comments]")!;
     const status = section.querySelector<HTMLElement>("[data-comments-status]")!;
     const container = section.querySelector<HTMLElement>("[data-comments-container]")!;
-    button.hidden = false;
-    button.addEventListener("click", async () => {
+    const loadComments = async () => {
       button.disabled = true;
-      status.textContent = "Loading discussion…";
+      button.hidden = true;
+      section.setAttribute("aria-busy", "true");
+      status.textContent = "";
       try {
         if (!customElements.get("hyvor-talk-comments")) {
           await new Promise<void>((resolve, reject) => {
@@ -70,11 +63,14 @@ const emailUrl = `mailto:kkiprotichkevin@gmail.com?subject=${encodeURIComponent(
         button.hidden = true;
         status.textContent = "";
       } catch {
-        status.textContent = "The discussion could not load. Try again, or use the email link below.";
-        button.textContent = "Try loading again";
+        status.textContent = "Comments couldn’t load.";
+        button.hidden = false;
       } finally {
         button.disabled = false;
+        section.removeAttribute("aria-busy");
       }
-    });
+    };
+    button.addEventListener("click", loadComments);
+    void loadComments();
   }
 </script>
