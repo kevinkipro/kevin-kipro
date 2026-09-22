@@ -1,5 +1,5 @@
 ---
-title: "Human-Technology Connection"
+title: "Human Computer Interaction"
 description: "A short thought on how humans interact with technology, and why it matters as we move beyond screens."
 published: 2026-09-22
 draft: false
