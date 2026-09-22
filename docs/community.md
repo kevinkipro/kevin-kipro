@@ -61,3 +61,9 @@ Checked 22 September 2026. No paid plans have been purchased.
 - [Guest commenting](https://talk.hyvor.com/docs/commenting) and [moderation](https://talk.hyvor.com/docs/moderation).
 - [Buttondown pricing](https://buttondown.com/pricing): the first 100 subscribers are free. RSS-to-email is listed as a $9/month add-on.
 - [Buttondown form documentation](https://docs.buttondown.com/building-your-subscriber-base) and [double opt-in](https://docs.buttondown.com/double-opt-in).
+
+## Discussion appearance
+
+The Messages-style theme is versioned in `public/styles/discussion.css`. In Hyvor Console → Settings → Comments → Custom CSS, use `@import url("https://kevinkipro.com/styles/discussion.css");`. Reactions and voting are disabled; the default sort is oldest first. Top-level comments use grey bubbles; replies use blue bubbles. Colours indicate thread structure, not verified author identity. Names, timestamps, reply and moderation controls remain available.
+
+The theme uses Hyvor’s current DOM classes. Check it after provider updates; clearing Custom CSS restores the standard widget. The signup uses a frosted glass control based on the supplied reference.
