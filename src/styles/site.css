@@ -734,7 +734,7 @@ h1 {
   line-height: 1.65;
 }
 .reader-section a { text-underline-offset: 3px; }
-.subscribe-form { margin-top: 1.25rem; max-width: 32rem; }
+.subscribe-form { margin-top: 1.25rem; width: 100%; }
 .subscribe-fields {
   display: flex;
   align-items: center;
