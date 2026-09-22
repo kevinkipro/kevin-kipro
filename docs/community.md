@@ -4,13 +4,19 @@ The site stays on GitHub Pages. RSS is built by Astro. Hyvor Talk stores comment
 
 ## Activation status
 
-The RSS links work immediately. Comments and email signup are implemented but hidden until their provider identifiers are configured. This avoids publishing forms that cannot receive submissions. Each feature can be activated independently.
+Connected on 22 September 2026. RSS, the Buttondown signup form, and the Hyvor guest comment box are live. The repository variables and local ignored `.env` use Hyvor website `16077` and Buttondown newsletter `kevinkipro`.
+
+Hyvor guest posting is enabled with pre-moderation off, no guest email required, and Akismet spam detection enabled. The live essay successfully loads the name and comment form. Hyvor currently shows a 14-day trial; no paid plan has been purchased.
+
+Buttondown’s onboarding now marks the owner’s email verification complete. The subscription form uses the provider’s confirmed embed URL. No newsletter has been sent.
+
+Manage comments at https://talk.hyvor.com/console/16077/comments and subscriptions at https://buttondown.com/home.
 
 ## 1. Set up guest comments
 
 1. Create or sign into your account at https://talk.hyvor.com/console.
 2. Add a website for `kevinkipro.com` and copy its numeric Website ID.
-3. Leave guest commenting enabled. A name is required; an email address is optional. Readers do not need GitHub, X, or Hyvor accounts.
+3. Leave guest commenting enabled. A name is required; guest email collection is currently disabled. Readers do not need GitHub, X, or Hyvor accounts.
 4. Keep ordinary posting open. Do not enable site-wide pre-moderation. Configure the provider's spam filtering separately.
 5. In the Hyvor Console, you can remove comments, mark spam and close a discussion. Use the reversible Delete action first; Delete Forever is permanent.
 6. Add the Website ID as the GitHub Actions repository variable `PUBLIC_HYVOR_WEBSITE_ID`.
@@ -43,7 +49,7 @@ Before treating activation as complete, verify on the real website:
 - A subscription using an address you control receives the confirmation email and confirms successfully.
 - Unsubscribe works and RSS still lists the published essays.
 
-These provider-side checks require real configured accounts and have not yet been performed. Do not send test emails to anyone else's address.
+The live form, guest name input, open-posting setting, and spam filtering have been verified. Comment submission/deletion and email confirmation/unsubscribe have not been exercised end to end. Do not send test emails to anyone else's address.
 
 To disable either feature, clear its repository variable and rebuild. This hides its interface without deleting data at the service.
 
