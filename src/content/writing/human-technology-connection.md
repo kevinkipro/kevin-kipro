@@ -25,7 +25,7 @@ A button became a feeling, then a gesture. The action remained familiar even as 
 
 That's why this history interests me. With AI, [Meta's smart glasses](https://www.meta.com/smart-glasses/) and [Apple Vision Pro](https://www.apple.com/apple-vision-pro/), we are exploring interactions beyond the phone screen. The devices still exist, but the interface may be something we speak to, look at or reach toward.
 
-I don't know exactly what comes next. I do think voice and vision will be a big part of it. Systems such as OpenAI's [computer-using agent](https://openai.com/index/computer-using-agent/) show how software can act through an interface on our behalf. That opens up another question: how should we tell it what we want?
+I don't know exactly what comes next. I do think voice and vision will be a big part of it. Systems such as OpenAI's [computer using agent](https://openai.com/index/computer-using-agent/) show how software can act through an interface on our behalf. That opens up another question: how should we tell it what we want?
 
 Would you say "close this tab" and "open that one", or would you simply point? Would describing every small action be more work than doing it yourself? Voice can be useful, but I don't think speaking our existing clicks aloud is the whole answer.
 
