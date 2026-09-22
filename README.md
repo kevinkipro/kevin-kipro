@@ -31,6 +31,16 @@ draft: false
 
 Published essays appear automatically at `/writing/` and in `/rss.xml`.
 
+## Reader subscriptions and comments
+
+Writing pages and essays have a visible RSS subscription link. Optional hosted
+integrations add Buttondown email signup and Hyvor Talk guest discussions beneath
+each essay. Each stays hidden until its public identifier is configured.
+
+See [the setup guide](docs/community.md) for accounts, pricing, moderation,
+GitHub Actions variables, and activation checks. The integrations do not send
+newsletter announcements automatically; the owner sends those from Buttondown.
+
 ## Now bookshelf
 
 The homepage is the Now page, revealed by the name intro on a first visit.

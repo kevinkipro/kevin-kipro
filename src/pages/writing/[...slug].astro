@@ -1,5 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import FollowWriting from "../../components/FollowWriting.astro";
+import EssayDiscussion from "../../components/EssayDiscussion.astro";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -44,5 +46,7 @@ const { Content } = await render(post);
         <Content />
       </div>
     </article>
+    <FollowWriting />
+    <EssayDiscussion pageId={`writing:${post.id}`} title={post.data.title} />
   </main>
 </BaseLayout>

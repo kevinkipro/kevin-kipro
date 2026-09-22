@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import FollowWriting from "../../components/FollowWriting.astro";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -84,5 +85,6 @@ const formatDate = (date: Date) =>
         </section>
       )
     }
+    <FollowWriting />
   </main>
 </BaseLayout>

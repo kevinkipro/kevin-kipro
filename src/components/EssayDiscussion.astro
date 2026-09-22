@@ -1,0 +1,80 @@
+---
+import { communityConfig } from "../lib/community.mjs";
+interface Props { pageId: string; title: string; }
+const { pageId, title } = Astro.props;
+const { hyvorWebsiteId } = communityConfig(import.meta.env);
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const emailUrl = `mailto:kkiprotichkevin@gmail.com?subject=${encodeURIComponent(`Re: ${title}`)}`;
+---
+
+{hyvorWebsiteId && (
+  <section class="reader-section discussion" aria-labelledby="discussion-heading"
+    data-discussion data-website-id={hyvorWebsiteId} data-page-id={pageId}
+    data-page-title={title} data-page-url={pageUrl}>
+    <h2 id="discussion-heading">Join the discussion</h2>
+    <p>What did this make you think of? Share a thought or ask a question.
+      You can comment as a guest without an account.</p>
+    <p class="reader-note">Disagreement is welcome. Please keep it respectful and on topic.
+      Spam and abusive comments may be removed.</p>
+    <button class="discussion-load" type="button" data-load-comments hidden>Load discussion</button>
+    <p class="reader-note" role="status" data-comments-status></p>
+    <div data-comments-container></div>
+    <noscript><p>Enable JavaScript to read and leave comments.</p></noscript>
+    <p class="reader-note">Comments are hosted by <a href="https://talk.hyvor.com/privacy">Hyvor Talk</a>.
+      Loading the discussion connects to their service.
+      You can also <a href={emailUrl}>email me</a>.</p>
+  </section>
+)}
+
+<script>
+  const section = document.querySelector<HTMLElement>("[data-discussion]");
+  if (section) {
+    const button = section.querySelector<HTMLButtonElement>("[data-load-comments]")!;
+    const status = section.querySelector<HTMLElement>("[data-comments-status]")!;
+    const container = section.querySelector<HTMLElement>("[data-comments-container]")!;
+    button.hidden = false;
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      status.textContent = "Loading discussion…";
+      try {
+        if (!customElements.get("hyvor-talk-comments")) {
+          await new Promise<void>((resolve, reject) => {
+            let script = document.querySelector<HTMLScriptElement>("script[data-hyvor-loader]");
+            const timer = window.setTimeout(() => reject(new Error("Timed out")), 15000);
+            if (!script) {
+              script = document.createElement("script");
+              script.type = "module";
+              script.src = "https://talk.hyvor.com/embed/embed.js";
+              script.dataset.hyvorLoader = "";
+              script.onerror = () => {
+                window.clearTimeout(timer);
+                script?.remove();
+                reject(new Error("Could not load comments"));
+              };
+              document.head.append(script);
+            }
+            customElements.whenDefined("hyvor-talk-comments").then(() => {
+              window.clearTimeout(timer);
+              resolve();
+            });
+          });
+        }
+        const comments = document.createElement("hyvor-talk-comments");
+        comments.setAttribute("website-id", section.dataset.websiteId!);
+        comments.setAttribute("page-id", section.dataset.pageId!);
+        comments.setAttribute("page-title", section.dataset.pageTitle!);
+        comments.setAttribute("page-url", section.dataset.pageUrl!);
+        comments.setAttribute("colors", "light");
+        comments.setAttribute("t-as-guest", "Comment without an account");
+        container.replaceChildren(comments);
+        button.hidden = true;
+        status.textContent = "";
+      } catch {
+        status.textContent = "The discussion could not load. Try again, or use the email link below.";
+        button.textContent = "Try loading again";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
