@@ -595,10 +595,39 @@ h1 {
   text-wrap: balance;
 }
 
+.essay-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.essay-author-photo {
+  display: block;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.essay-author-details {
+  display: grid;
+  gap: 0.2rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+}
+.essay-author-name {
+  width: fit-content;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.essay-author-name:hover { text-decoration: underline; text-underline-offset: 3px; }
+.essay-author-name:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; border-radius: 2px; }
 .essay-header time {
   display: block;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
+  font-size: 0.6875rem;
   color: var(--secondary);
 }
 

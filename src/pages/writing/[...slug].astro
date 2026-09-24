@@ -1,5 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import authorPhoto from "../../assets/author-github.jpg";
 import FollowWriting from "../../components/FollowWriting.astro";
 import EssayDiscussion from "../../components/EssayDiscussion.astro";
 import Header from "../../components/Header.astro";
@@ -34,13 +36,20 @@ const { Content } = await render(post);
     <article class="essay">
       <header class="essay-header">
         <h1>{post.data.title}</h1>
-        <time datetime={post.data.published.toISOString()}>
-          {post.data.published.toLocaleDateString("en-AU", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </time>
+        <div class="essay-byline">
+          <Image src={authorPhoto} alt="" width={44} height={44}
+            class="essay-author-photo" loading="eager" />
+          <div class="essay-author-details">
+            <a class="essay-author-name" href="https://github.com/kevinkipro" rel="author">Kevin Kiprotich</a>
+            <time datetime={post.data.published.toISOString()}>
+              {post.data.published.toLocaleDateString("en-AU", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </time>
+          </div>
+        </div>
       </header>
       <div class="essay-content">
         <Content />
