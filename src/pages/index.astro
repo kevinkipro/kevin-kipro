@@ -13,8 +13,8 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout
-  title="Now — Kevin Kiprotich"
-  description="What Kevin Kiprotich is building, reading, and thinking about at the moment."
+  title="Kevin Kiprotich | Software Engineering in Adelaide"
+  description="Kevin Kiprotich is a software engineering degree apprentice in Adelaide, Australia. Explore his writing, current interests and work."
   bodyClass="home-page now-page"
   introScript
   motionScript
@@ -38,7 +38,10 @@ const formatDate = (date: Date) =>
     <Header active="now" />
 
     <main id="main-content">
-      <h1>Now</h1>
+      <h1>Kevin Kiprotich</h1>
+      <p class="introduction">Software engineering degree apprentice based in Adelaide, Australia.</p>
+      <p><a href="/about/">About me</a> · <a href="/writing/">Read my writing</a></p>
+      <h2 class="section-label">Now</h2>
 
       <div class="now-lede">
         {now.lede.map((paragraph) => <p>{paragraph}</p>)}

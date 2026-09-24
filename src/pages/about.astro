@@ -1,20 +1,29 @@
 ---
+import { person, siteUrl } from "../data/identity";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-  title="About — Kevin Kiprotich"
-  description="About Kevin Kiprotich."
+  title="About Kevin Kiprotich | Software Engineering in Adelaide"
+  description="Meet Kevin Kiprotich, a software engineering degree apprentice in Adelaide, Australia. Find his writing, GitHub and LinkedIn profiles."
+  structuredData={[{
+    "@type": "ProfilePage",
+    "@id": `${siteUrl}/about/#profile`,
+    url: `${siteUrl}/about/`,
+    name: "About Kevin Kiprotich",
+    mainEntity: { "@id": person["@id"] },
+    isPartOf: { "@id": `${siteUrl}/#website` },
+  }]}
   bodyClass="about-page motion-page"
   motionScript
 >
   <Header active="about" />
 
   <main id="main-content">
-    <h1>About</h1>
+    <h1>About Kevin Kiprotich</h1>
     <p class="introduction">
-      I’m Kevin, a software engineering degree apprentice based in Adelaide,
+      I’m Kevin Kiprotich, a software engineering degree apprentice based in Adelaide,
       Australia. This is where I share my writing, work, and things I’m learning.
     </p>
     <ul class="about-links" aria-label="Contact and profiles">

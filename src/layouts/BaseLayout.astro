@@ -1,10 +1,13 @@
 ---
 import "../styles/site.css";
+import { person, website } from "../data/identity";
 
 interface Props {
   title: string;
   description: string;
   bodyClass?: string;
+  structuredData?: Record<string, unknown>[];
+  article?: boolean;
   introScript?: boolean;
   motionScript?: boolean;
 }
@@ -13,19 +16,34 @@ const {
   title,
   description,
   bodyClass,
+  structuredData = [],
+  article = false,
   introScript = false,
   motionScript = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const schema = JSON.stringify({ "@context": "https://schema.org", "@graph": [person, website, ...structuredData] }).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="google-site-verification" content="fR55fadV3eWQVgLtL5VF2CJB5YFDL8ty4c-6OdduFFg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="author" content={person.name} />
+    <meta property="og:site_name" content={person.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:locale" content="en_AU" />
+    <meta property="og:image" content={person.image} />
+    <meta property="og:image:alt" content="Kevin Kiprotich’s profile photo" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" is:inline set:html={schema} />
     <link rel="alternate" type="application/rss+xml" title="Kevin Kiprotich’s writing" href="/rss.xml" />
     {introScript && <script is:inline>
       document.documentElement.classList.add("has-js");

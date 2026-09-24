@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import authorPhoto from "../../assets/author-github.jpg";
+import { person, siteUrl } from "../../data/identity";
 import FollowWriting from "../../components/FollowWriting.astro";
 import EssayDiscussion from "../../components/EssayDiscussion.astro";
 import Header from "../../components/Header.astro";
@@ -27,6 +28,20 @@ const { Content } = await render(post);
 <BaseLayout
   title={`${post.data.title} — Kevin Kiprotich`}
   description={post.data.description}
+  article
+  structuredData={[{
+    "@type": "BlogPosting",
+    "@id": `${siteUrl}/writing/${post.id}/#article`,
+    url: `${siteUrl}/writing/${post.id}/`,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.published.toISOString(),
+    ...(post.data.updated ? { dateModified: post.data.updated.toISOString() } : {}),
+    author: { "@id": person["@id"] },
+    mainEntityOfPage: `${siteUrl}/writing/${post.id}/`,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    inLanguage: "en-AU",
+  }]}
   bodyClass="essay-page motion-page"
   motionScript
 >
@@ -40,7 +55,7 @@ const { Content } = await render(post);
           <Image src={authorPhoto} alt="" width={44} height={44}
             class="essay-author-photo" loading="eager" />
           <div class="essay-author-details">
-            <a class="essay-author-name" href="https://github.com/kevinkipro" rel="author">Kevin Kiprotich</a>
+            <a class="essay-author-name" href="/about/" rel="author">Kevin Kiprotich</a>
             <time datetime={post.data.published.toISOString()}>
               {post.data.published.toLocaleDateString("en-AU", {
                 day: "numeric",
