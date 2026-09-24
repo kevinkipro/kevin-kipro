@@ -148,7 +148,8 @@
     await wait(250);
     if (entering) return;
     ready = true;
-    trigger.setAttribute("aria-label", "Kevin Kiprotich. Move the pointer, tap, or press Enter to open the website.");
+    // Reveal after the animation without requiring input from visitors or crawlers.
+    revealSite();
   };
 
   window.addEventListener("pagehide", finish, { once: true });
